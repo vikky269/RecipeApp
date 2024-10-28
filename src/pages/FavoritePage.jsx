@@ -1,24 +1,36 @@
-import React from 'react'
-import RecipeCard from '../components/RecipeCard'
+import React, { useState, useEffect } from 'react';
+import RecipeCard from '../components/RecipeCard';
+import { getRandomColor } from '../lib/utils';
 
 const FavoritePage = () => {
+  const [favorites, setFavorites] = useState([]);
 
-  const fav = true
+  useEffect(() => {
+    // Retrieve favorites from localStorage on component mount
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites)
+  }, []);
+
   return (
-    <div className='bg-[#faf9fb] flex-1 p-10 min-h-screen '>
+    <div className='bg-[#faf9fb] flex-1 p-10 min-h-screen'>
       <div className='max-w-screen-lg mx-auto'>
-         <p className='font-bold text-3xl md:text-5xl my-4'>My Favorites</p>
+        <p className='font-bold text-3xl md:text-5xl my-4'>My Favorites</p>
 
-         {!fav && (<div className='h-[80vh] flex flex-col items-center gap-4'>
-            <img src='/404.svg' className='h-3/4' />
-         </div>)}
-
-         {fav && (<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-          <RecipeCard />
-         </div>)}
+        {favorites.length === 0 ? (
+          <div className='h-[80vh] flex flex-col items-center gap-4'>
+            <img src='/404.svg' className='h-3/4' alt="No favorites found" />
+            <p className='text-lg'>No favorite recipes yet. Start adding some!</p>
+          </div>
+        ) : (
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {favorites.map((recipe, index) => (
+              <RecipeCard key={index} recipe={recipe}  {...getRandomColor} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FavoritePage
+export default FavoritePage;

@@ -1,9 +1,10 @@
 import { Search} from 'lucide-react'
 import React, {useEffect, useState} from 'react'
 import RecipeCard from '../components/RecipeCard'
+import { getRandomColor } from '../lib/utils'
 
-const APP_ID = "2ad4c6d4"
-const API_KEY = "c0d2e9fa1b0e65bfcee50aefd21b0374"
+const APP_ID = import.meta.env.VITE_APP_ID
+const API_KEY = import.meta.env.VITE_APP_KEY
 
 
 const HomePage = () => {
@@ -34,7 +35,10 @@ useEffect(()=>{
     <div className='bg-[#faf9fb] p-10 flex-1'>
 
       <div className='max-w-screen-lg mx-auto'>
-        <form>
+        <form onSubmit={(e)=>{
+          e.preventDefault()
+          fetchRecipies(e.target[0].value)
+        }}>
           <label className='input shadow-md flex items-center gap-2'>
             <Search size={24} />
             <input type="text" className='text-sm md:text-md grow' placeholder='What do you want to cook today' />
@@ -53,11 +57,12 @@ useEffect(()=>{
 
         {!loading && recipe.map(({recipe}, index)=> {
           return (
-            <RecipeCard  recipe={recipe} key={index} />
+            <RecipeCard  recipe={recipe} key={index}  {...getRandomColor()} />
           ) 
         })}
 
-
+        
+        
         {loading &&
 						[...Array(9)].map((_, index) => (
 							<div key={index} className='flex flex-col gap-4 w-full'>
@@ -69,11 +74,6 @@ useEffect(()=>{
 								<div className='skeleton h-4 w-1/2'></div>
 							</div>
 						))}
-
-       
-         
-          
-
         </div>
       </div>
     </div>
