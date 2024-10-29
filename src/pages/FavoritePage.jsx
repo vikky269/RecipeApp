@@ -3,13 +3,16 @@ import RecipeCard from '../components/RecipeCard';
 import { getRandomColor } from '../lib/utils';
 
 const FavoritePage = () => {
-  const [favorites, setFavorites] = useState([]);
+ // const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    // Retrieve favorites from localStorage on component mount
-    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavorites)
-  }, []);
+  // useEffect(() => {
+  //   // Retrieve favorites from localStorage on component mount
+  //   const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  //   setFavorites(storedFavorites)
+  // }, []);
+
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
 
   return (
     <div className='bg-[#faf9fb] flex-1 p-10 min-h-screen'>
